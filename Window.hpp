@@ -9,6 +9,7 @@ class Window : public QMainWindow
 
     public slots:
         void loadPage();
+        void refreshUrl(QUrl url);
 
     private:
         QWebView *web;
@@ -17,5 +18,5 @@ class Window : public QMainWindow
         QMenu *fileMenu;
         QIcon icon_quit;
         QLineEdit *urlbar;
-        QUrl url;
+        QProgressBar *progressbar;
 };

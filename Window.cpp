@@ -11,7 +11,7 @@ Window::Window(): QMainWindow()
     next = toolbar->addAction("Suivant");
     icon_quit = QIcon::fromTheme("window-close");
     urlbar = new QLineEdit;
-    QUrl url;
+    progressbar = new QProgressBar;
 
     quit->setShortcut(QKeySequence("Ctrl+Q"));
     quit->setIcon(icon_quit);
@@ -25,12 +25,16 @@ Window::Window(): QMainWindow()
     connect(previous, SIGNAL(triggered()), web, SLOT(back()));
     connect(next, SIGNAL(triggered()), web, SLOT(forward()));
     connect(urlbar, SIGNAL(returnPressed()), this, SLOT(loadPage()));
+    connect(web, SIGNAL(urlChanged(QUrl)), this, SLOT(refreshUrl(QUrl)));
     setCentralWidget(web);
 }
 
 void Window::loadPage()
 {
-    url.setUrl(urlbar->text());
-    web->load(url);
+    web->load(urlbar->text());
 }
 
+void Window::refreshUrl(QUrl url)
+{
+    urlbar->setText(url.toString());
+}
