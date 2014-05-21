@@ -18,7 +18,7 @@ class Window : public QMainWindow
     private:
         QWebView *web;
         QToolBar *toolbar;
-        QAction *quit, *reload, *previous, *next, *addtab, *closetab;
+        QAction *quit, *reload, *previous, *next, *addtab, *closetab, *stop;
         QMenu *fileMenu;
         QIcon icon_quit;
         QLineEdit *urlbar;
