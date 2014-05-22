@@ -26,4 +26,6 @@ class Window : public QMainWindow
         QTabWidget *tabs;
         QWidget *page;
         QVBoxLayout *layout;
+        QUrl *url;
+        QRegExp *url_regex;
 };

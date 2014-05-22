@@ -1,4 +1,5 @@
 #include "Window.hpp"
+#include <iostream>
 
 Window::Window(): QMainWindow() 
 {
@@ -15,6 +16,8 @@ Window::Window(): QMainWindow()
     stop = toolbar->addAction("Stop");
     progressbar = new QProgressBar;
     tabs = new QTabWidget;
+    url = new QUrl;
+    url_regex = new QRegExp;
 
     quit->setShortcut(QKeySequence("Ctrl+Q"));
     reload->setShortcut(QKeySequence("Ctrl+R"));
@@ -45,7 +48,18 @@ Window::Window(): QMainWindow()
 
 void Window::loadPage()
 {
-    currentTab()->load(urlbar->text());
+    url->setUrl(urlbar->text());
+    url_regex->setPattern(".*\\.\\w{2,4}");
+    if (url_regex->exactMatch(url->toString()))
+    {
+        url->setUrl(url->toString().insert(0,QString("www.")));
+    }
+    url_regex->setPattern("\\w{2,3}\\..*\\.\\w{2,4}");
+    if (url_regex->exactMatch(url->toString())) 
+    {
+        url->setUrl(url->toString().insert(0,QString("http://")));
+    }
+    currentTab()->load(*url);
 }
 
 void Window::refreshUrl()
