@@ -59,6 +59,10 @@ void Window::loadPage()
     {
         url->setUrl(url->toString().insert(0,QString("http://")));
     }
+    else 
+    {
+        url->setUrl(url->toString().insert(0,QString("https://duckduckgo.com/?q=")));
+    }
     currentTab()->load(*url);
 }
 
