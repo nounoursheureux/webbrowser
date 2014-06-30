@@ -35,10 +35,10 @@ Window::Window(): QMainWindow()
     toolbar->addWidget(urlbar);
     QMetaObject::invokeMethod(this, "newTab");
     connect(quit, SIGNAL(triggered()), qApp, SLOT(quit()));
-    connect(reload, SIGNAL(triggered()), web, SLOT(reload()));
-    connect(previous, SIGNAL(triggered()), web, SLOT(back()));
-    connect(next, SIGNAL(triggered()), web, SLOT(forward()));
-    connect(stop, SIGNAL(triggered()), web, SLOT(stop()));
+    connect(reload, SIGNAL(triggered()), currentTab(), SLOT(reload()));
+    connect(previous, SIGNAL(triggered()), currentTab(), SLOT(back()));
+    connect(next, SIGNAL(triggered()), currentTab(), SLOT(forward()));
+    connect(stop, SIGNAL(triggered()), currentTab(), SLOT(stop()));
     connect(addtab, SIGNAL(triggered()), this, SLOT(newTab()));
     connect(closetab, SIGNAL(triggered()), this, SLOT(closeTab()));
     connect(urlbar, SIGNAL(returnPressed()), this, SLOT(loadPage()));
@@ -49,12 +49,12 @@ Window::Window(): QMainWindow()
 void Window::loadPage()
 {
     url->setUrl(urlbar->text());
-    url_regex->setPattern(".*\\.\\w{2,4}");
+    url_regex->setPattern(".*\\.\\w{2,4}\\/?.*");
     if (url_regex->exactMatch(url->toString()))
     {
         url->setUrl(url->toString().insert(0,QString("www.")));
     }
-    url_regex->setPattern("\\w{2,3}\\..*\\.\\w{2,4}");
+    url_regex->setPattern("\\w{2,3}\\..*\\.\\w{2,4}\\/?.*");
     if (url_regex->exactMatch(url->toString())) 
     {
         url->setUrl(url->toString().insert(0,QString("http://")));

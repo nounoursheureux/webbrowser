@@ -28,4 +28,5 @@ class Window : public QMainWindow
         QVBoxLayout *layout;
         QUrl *url;
         QRegExp *url_regex;
+        QNetworkCookieJar *cookie;
 };
