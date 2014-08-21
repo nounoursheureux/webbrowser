@@ -1,5 +1,6 @@
 #include <QtWidgets>
 #include <QWebView>
+#include <QtPlugin>
 
 class Window : public QMainWindow
 {
@@ -14,6 +15,10 @@ class Window : public QMainWindow
         void refreshUrl();
         void newTab();
         void closeTab();
+        void reloadTab();
+        void backTab();
+        void forwardTab();
+        void stopTab();
 
     private:
         QWebView *web;
@@ -24,7 +29,7 @@ class Window : public QMainWindow
         QLineEdit *urlbar;
         QProgressBar *progressbar;
         QTabWidget *tabs;
-        QWidget *page;
+        QWidget *webPage;
         QVBoxLayout *layout;
         QUrl *url;
         QRegExp *url_regex;

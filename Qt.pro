@@ -6,6 +6,7 @@ TEMPLATE = app
 QT += widgets webkitwidgets gui
 TARGET = webbrowser
 INCLUDEPATH += .
+QTPLUGIN += qjpeg
 
 # Input
 HEADERS += Window.hpp 

@@ -1,5 +1,6 @@
 #include "Window.hpp"
 #include <iostream>
+#include <QWebFrame>
 
 Window::Window(): QMainWindow() 
 {
@@ -35,10 +36,10 @@ Window::Window(): QMainWindow()
     toolbar->addWidget(urlbar);
     QMetaObject::invokeMethod(this, "newTab");
     connect(quit, SIGNAL(triggered()), qApp, SLOT(quit()));
-    connect(reload, SIGNAL(triggered()), currentTab(), SLOT(reload()));
-    connect(previous, SIGNAL(triggered()), currentTab(), SLOT(back()));
-    connect(next, SIGNAL(triggered()), currentTab(), SLOT(forward()));
-    connect(stop, SIGNAL(triggered()), currentTab(), SLOT(stop()));
+    connect(reload, SIGNAL(triggered()), this, SLOT(reloadTab()));
+    connect(previous, SIGNAL(triggered()), this, SLOT(backTab()));
+    connect(next, SIGNAL(triggered()), this, SLOT(forwardTab()));
+    connect(stop, SIGNAL(triggered()), this, SLOT(stopTab()));
     connect(addtab, SIGNAL(triggered()), this, SLOT(newTab()));
     connect(closetab, SIGNAL(triggered()), this, SLOT(closeTab()));
     connect(urlbar, SIGNAL(returnPressed()), this, SLOT(loadPage()));
@@ -61,9 +62,10 @@ void Window::loadPage()
     }
     else 
     {
-        url->setUrl(url->toString().insert(0,QString("https://duckduckgo.com/?q=")));
+        url->setUrl(url->toString().insert(0,QString("https://google.com/search?q=")));
     }
     currentTab()->load(*url);
+    //currentTab()->setHtml(currentTab()->page()->currentFrame()->toHtml());
 }
 
 void Window::refreshUrl()
@@ -74,17 +76,37 @@ void Window::refreshUrl()
 void Window::newTab()
 {
     layout = new QVBoxLayout;
-    page = new QWidget;
+    webPage = new QWidget;
     web = new QWebView;
     layout->addWidget(web);
-    page->setLayout(layout);
-    tabs->addTab(page, "Test");
+    webPage->setLayout(layout);
+    tabs->addTab(webPage, "Test");
     connect(web, SIGNAL(urlChanged(QUrl)), this, SLOT(refreshUrl()));
 }
 
 void Window::closeTab()
 {
     tabs->removeTab(tabs->currentIndex());
+}
+
+void Window::reloadTab() 
+{
+    currentTab()->reload();
+}
+
+void Window::backTab()
+{
+    currentTab()->back();
+}
+
+void Window::forwardTab() 
+{
+    currentTab()->forward();
+}
+
+void Window::stopTab() 
+{
+    currentTab()->stop();
 }
 
 QWebView* Window::currentTab()
